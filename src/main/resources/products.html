@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Shop</title>
+    <style>
+        body {
+    background: Lavender;
+    font: 18px Arial, sans-serif;
+}
+h2 {
+    color: DarkOrange;
+}
+    </style>
+</head>
+<body>
+<h2>Welcome to Online Shop!</h2>
+<form action="/products/add" method="GET">
+    <input type="submit" value="  Add product  "/>
+</form>
+
+<ul>
+    <#list products as item>
+    <li>${item}</li>
+</#list>
+</ul>
+
+<form action="/products/edit" method="POST">
+    Enter id of product to edit it: <input type="text" name="id"/>
+    <input type="submit" value="Edit">
+</form>
+<br>
+<form action="/products/delete" method="POST">
+    Enter id of product to delete it: <input type="text" name="id"/>
+    <input type="submit" value="Delete">
+</form>
+
+</body>
+</html>
