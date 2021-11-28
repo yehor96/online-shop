@@ -17,11 +17,13 @@ public class Product {
     private long id;
     private String name;
     private double price;
-    private LocalDate createDate;
+    private LocalDate createdDate;
 
     @Override
     public String toString() {
-        return "#" + id + " " + name + " for $" + price + " created at " + createDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+        return "id #" + id + " " +
+                name +
+                " for $" + price +
+                " created at " + createdDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
 }
-

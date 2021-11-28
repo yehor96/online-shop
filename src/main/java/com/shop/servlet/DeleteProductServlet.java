@@ -1,7 +1,6 @@
 package com.shop.servlet;
 
 import com.shop.dao.ProductDao;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,9 +18,9 @@ public class DeleteProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        productDao.delete(Long.parseLong(req.getParameter("id")));
-        resp.sendRedirect(req.getContextPath() + "/products");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        productDao.delete(Long.parseLong(request.getParameter("id")));
+        response.sendRedirect(request.getContextPath() + "/products");
     }
 
     public void addMapping(ServletContextHandler context) {

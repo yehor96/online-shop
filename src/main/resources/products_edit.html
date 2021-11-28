@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product</title>
+    <style>
+        body {
+    background: Lavender;
+    font: 18px Arial, sans-serif;
+}
+h2 {
+    color: DarkOrange;
+}
+    </style>
+</head>
+<body>
+<h2>Enter new product details:</h2>
+
+<form action="/products/edit" method="POST">
+    <label for="id">Id:</label><br>
+    <input type="text" value=${id} id="id" name="id"><br>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="price">Price</label><br>
+    <input type="text" id="price" name="price"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.shop;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.experimental.UtilityClass;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +13,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
+@UtilityClass
 public class PageProvider {
 
     private static final String ROOT = "src/main/resources";
