@@ -50,4 +50,8 @@ public class PageProvider {
         return content.toString();
     }
 
+    public static String getCssPage(String filename) {
+        return getPage("css" + filename);
+    }
+
 }

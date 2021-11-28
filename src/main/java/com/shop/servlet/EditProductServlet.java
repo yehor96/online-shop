@@ -38,15 +38,19 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Product product = Product.builder()
-                .id(Long.parseLong(request.getParameter("id")))
-                .name(request.getParameter("name"))
-                .price(Double.parseDouble(request.getParameter("price")))
-                .createdDate(LocalDate.now())
-                .build();
-
-        productDao.update(product);
-        response.sendRedirect(request.getContextPath() + "/products");
+        try {
+            Product product = Product.builder()
+                    .id(Long.parseLong(request.getParameter("id")))
+                    .name(request.getParameter("name"))
+                    .price(Double.parseDouble(request.getParameter("price")))
+                    .createdDate(LocalDate.now())
+                    .build();
+            productDao.update(product);
+        } catch (IllegalArgumentException e) {
+            response.sendError(400, "Provided values are not valid");
+        } finally {
+            response.sendRedirect(request.getContextPath() + "/products");
+        }
     }
 
     public void addMapping(ServletContextHandler context) {
