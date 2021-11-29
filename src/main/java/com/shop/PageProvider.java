@@ -17,16 +17,16 @@ import java.util.Map;
 public class PageProvider {
 
     private static final String ROOT = "src/main/resources";
-    private static final Configuration config;
+    private static Configuration config;
 
     static {
-        config = new Configuration();
+        initConfig();
     }
 
     public static String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            Template template = config.getTemplate(ROOT + File.separator + filename);
+            Template template = config.getTemplate(filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);
@@ -52,6 +52,16 @@ public class PageProvider {
 
     public static String getCssPage(String filename) {
         return getPage("css" + filename);
+    }
+
+    private static void initConfig() {
+        config = new Configuration(Configuration.VERSION_2_3_31);
+        try {
+            config.setDirectoryForTemplateLoading(new File(ROOT));
+            config.setDefaultEncoding("UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException("Not able to configure PageProvider. " + e);
+        }
     }
 
 }

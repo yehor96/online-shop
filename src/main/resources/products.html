@@ -13,8 +13,10 @@
 
 <ul>
     <#list products as item>
-    <li>${item}</li>
-</#list>
+        <li>${item}</li>
+    <#else>
+        <h5>There are no added products</h5>
+    </#list>
 </ul>
 
 <form action="/products/edit" method="GET">
