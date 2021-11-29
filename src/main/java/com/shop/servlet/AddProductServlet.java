@@ -1,8 +1,9 @@
 package com.shop.servlet;
 
-import com.shop.PageProvider;
 import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
+import com.shop.helper.ErrorHandler;
+import com.shop.helper.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +12,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 
 public class AddProductServlet extends HttpServlet {
 
@@ -22,7 +22,7 @@ public class AddProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try (PrintWriter writer = response.getWriter()) {
             writer.println(PageProvider.getPage("products_add.html"));
         }
@@ -32,12 +32,17 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Product product = Product.builder()
-                .name(request.getParameter("name"))
-                .price(Double.parseDouble(request.getParameter("price")))
-                .createdDate(LocalDate.now())
-                .build();
-        productDao.save(product);
+        try {
+            Product product = Product.builder()
+                    .name(request.getParameter("name"))
+                    .price(Double.parseDouble(request.getParameter("price")))
+                    .build();
+            productDao.save(product);
+        } catch (IllegalArgumentException e) {
+            ErrorHandler.processBadRequest(response,
+                    "Not able to add a product, since provided values are not valid");
+        }
+
         response.sendRedirect(request.getContextPath() + "/products");
     }
 

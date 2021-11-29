@@ -1,6 +1,6 @@
 package com.shop.servlet;
 
-import com.shop.PageProvider;
+import com.shop.helper.PageProvider;
 import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
 import jakarta.servlet.http.HttpServlet;

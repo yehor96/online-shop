@@ -1,8 +1,9 @@
 package com.shop.servlet;
 
-import com.shop.PageProvider;
 import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
+import com.shop.helper.ErrorHandler;
+import com.shop.helper.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,7 +12,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,14 +43,14 @@ public class EditProductServlet extends HttpServlet {
                     .id(Long.parseLong(request.getParameter("id")))
                     .name(request.getParameter("name"))
                     .price(Double.parseDouble(request.getParameter("price")))
-                    .createdDate(LocalDate.now())
                     .build();
             productDao.update(product);
         } catch (IllegalArgumentException e) {
-            response.sendError(400, "Provided values are not valid");
-        } finally {
-            response.sendRedirect(request.getContextPath() + "/products");
+            ErrorHandler.processBadRequest(response,
+                    "Not able to edit product, since provided values are not valid");
         }
+
+        response.sendRedirect(request.getContextPath() + "/products");
     }
 
     public void addMapping(ServletContextHandler context) {

@@ -2,17 +2,19 @@ package com.shop.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-@Data
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
 public class Product {
+
     @EqualsAndHashCode.Include
     private long id;
     private String name;
@@ -21,9 +23,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "id #" + id + " " +
-                name +
-                " for $" + price +
-                " created at " + createdDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+        return "id #%d %s for $%s created at %s"
+                .formatted(id, name, price, createdDate.format(ofPattern("dd MMM yyyy")));
     }
 }
