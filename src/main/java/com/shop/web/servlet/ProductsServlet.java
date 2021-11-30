@@ -29,7 +29,7 @@ public class ProductsServlet extends HttpServlet {
         Map<String, Object> productMap = new HashMap<>();
 
         try (PrintWriter writer = response.getWriter()) {
-            productMap.put("products", products.stream().map(Product::toString).toList()); //TODO add bootstrap and pass list of Products
+            productMap.put("products", products);
             writer.println(PageProvider.getPage("products.html", productMap));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

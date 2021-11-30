@@ -36,7 +36,7 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            String name = PARAMETER_HANDLER.getAsString(request, "id");
+            String name = PARAMETER_HANDLER.getAsString(request, "name");
             Double price = PARAMETER_HANDLER.getAsDouble(request, "price");
 
             Product product = Product.builder()
