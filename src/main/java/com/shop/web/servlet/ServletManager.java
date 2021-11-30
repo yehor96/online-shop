@@ -1,16 +1,16 @@
 package com.shop.web.servlet;
 
-import com.shop.dao.ProductDao;
+import com.shop.service.ProductService;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class ServletManager {
 
-    public static ServletContextHandler getContext(ProductDao dao) {
+    public static ServletContextHandler getContext(ProductService service) {
         CssServlet cssServlet = new CssServlet();
-        ProductsServlet productsServlet = new ProductsServlet(dao);
-        AddProductServlet addProductServlet = new AddProductServlet(dao);
-        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(dao);
-        EditProductServlet editProductServlet = new EditProductServlet(dao);
+        ProductsServlet productsServlet = new ProductsServlet(service);
+        AddProductServlet addProductServlet = new AddProductServlet(service);
+        DeleteProductServlet deleteProductServlet = new DeleteProductServlet(service);
+        EditProductServlet editProductServlet = new EditProductServlet(service);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         cssServlet.addMapping(context);

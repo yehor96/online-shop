@@ -1,8 +1,8 @@
 package com.shop.web.servlet;
 
-import com.shop.web.PageProvider;
-import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
+import com.shop.service.ProductService;
+import com.shop.web.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,15 +17,15 @@ import java.util.Map;
 
 public class ProductsServlet extends HttpServlet {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductsServlet(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductsServlet(ProductService productService) {
+        this.productService = productService;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        List<Product> products = productDao.findAll();
+        List<Product> products = productService.findAll();
         Map<String, Object> productMap = new HashMap<>();
 
         try (PrintWriter writer = response.getWriter()) {

@@ -1,9 +1,9 @@
 package com.shop.web.servlet;
 
-import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
-import com.shop.web.handler.ErrorHandler;
+import com.shop.service.ProductService;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.ErrorHandler;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,10 +18,10 @@ public class AddProductServlet extends HttpServlet {
 
     private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public AddProductServlet(ProductDao productDao) {
-        this.productDao = productDao;
+    public AddProductServlet(ProductService productService) {
+        this.productService = productService;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AddProductServlet extends HttpServlet {
                     .name(name)
                     .price(price)
                     .build();
-            productDao.save(product);
+            productService.save(product);
         } catch (IllegalArgumentException e) {
             ErrorHandler.processBadRequest(response,
                     "Not able to add a product, since provided values are not valid");

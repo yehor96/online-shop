@@ -1,6 +1,6 @@
 package com.shop.web.servlet;
 
-import com.shop.dao.ProductDao;
+import com.shop.service.ProductService;
 import com.shop.web.handler.ErrorHandler;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
@@ -15,17 +15,17 @@ public class DeleteProductServlet extends HttpServlet {
 
     private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public DeleteProductServlet(ProductDao productDao) {
-        this.productDao = productDao;
+    public DeleteProductServlet(ProductService productService) {
+        this.productService = productService;
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Long id = PARAMETER_HANDLER.getAsLong(request, "id");
-            productDao.delete(id);
+            productService.delete(id);
         } catch (IllegalArgumentException e) {
             ErrorHandler.processBadRequest(response,
                     "Not able to delete a product, since provided id is not valid");
