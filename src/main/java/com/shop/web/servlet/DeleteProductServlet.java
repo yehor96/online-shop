@@ -2,6 +2,7 @@ package com.shop.web.servlet;
 
 import com.shop.dao.ProductDao;
 import com.shop.web.handler.ErrorHandler;
+import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +13,9 @@ import java.io.IOException;
 
 public class DeleteProductServlet extends HttpServlet {
 
-    private ProductDao productDao;
+    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
+
+    private final ProductDao productDao;
 
     public DeleteProductServlet(ProductDao productDao) {
         this.productDao = productDao;
@@ -21,7 +24,7 @@ public class DeleteProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            Long id = Long.parseLong(request.getParameter("id"));
+            Long id = PARAMETER_HANDLER.getAsLong(request, "id");
             productDao.delete(id);
         } catch (IllegalArgumentException e) {
             ErrorHandler.processBadRequest(response,

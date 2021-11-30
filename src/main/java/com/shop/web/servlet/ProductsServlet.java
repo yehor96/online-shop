@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ProductsServlet extends HttpServlet {
 
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     public ProductsServlet(ProductDao productDao) {
         this.productDao = productDao;
@@ -29,7 +29,7 @@ public class ProductsServlet extends HttpServlet {
         Map<String, Object> productMap = new HashMap<>();
 
         try (PrintWriter writer = response.getWriter()) {
-            productMap.put("products", products.stream().map(Product::toString).toList());
+            productMap.put("products", products.stream().map(Product::toString).toList()); //TODO add bootstrap and pass list of Products
             writer.println(PageProvider.getPage("products.html", productMap));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

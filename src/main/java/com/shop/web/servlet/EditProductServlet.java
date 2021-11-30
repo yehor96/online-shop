@@ -4,6 +4,7 @@ import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
 import com.shop.web.handler.ErrorHandler;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +18,9 @@ import java.util.Map;
 
 public class EditProductServlet extends HttpServlet {
 
-    private ProductDao productDao;
+    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
+
+    private final ProductDao productDao;
 
     public EditProductServlet(ProductDao productDao) {
         this.productDao = productDao;
@@ -27,7 +30,8 @@ public class EditProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Map<String, Object> idParameter = new HashMap<>();
-        idParameter.put("id", request.getParameter("id"));
+        String id = PARAMETER_HANDLER.getAsString(request, "id");
+        idParameter.put("id", id);
 
         try (PrintWriter writer = response.getWriter()) {
             writer.println(PageProvider.getPage("products_edit.html", idParameter));
@@ -39,10 +43,14 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            Long id = PARAMETER_HANDLER.getAsLong(request, "id");
+            String name = PARAMETER_HANDLER.getAsString(request, "name");
+            Double price = PARAMETER_HANDLER.getAsDouble(request, "price");
+
             Product product = Product.builder()
-                    .id(Long.parseLong(request.getParameter("id")))
-                    .name(request.getParameter("name"))
-                    .price(Double.parseDouble(request.getParameter("price")))
+                    .id(id)
+                    .name(name)
+                    .price(price)
                     .build();
             productDao.update(product);
         } catch (IllegalArgumentException e) {

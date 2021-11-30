@@ -4,6 +4,7 @@ import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
 import com.shop.web.handler.ErrorHandler;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +16,9 @@ import java.io.PrintWriter;
 
 public class AddProductServlet extends HttpServlet {
 
-    private ProductDao productDao;
+    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
+
+    private final ProductDao productDao;
 
     public AddProductServlet(ProductDao productDao) {
         this.productDao = productDao;
@@ -33,9 +36,12 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            String name = PARAMETER_HANDLER.getAsString(request, "id");
+            Double price = PARAMETER_HANDLER.getAsDouble(request, "price");
+
             Product product = Product.builder()
-                    .name(request.getParameter("name"))
-                    .price(Double.parseDouble(request.getParameter("price")))
+                    .name(name)
+                    .price(price)
                     .build();
             productDao.save(product);
         } catch (IllegalArgumentException e) {
