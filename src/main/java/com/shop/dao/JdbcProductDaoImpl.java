@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DatabaseProductDaoImpl implements ProductDao {
+public class JdbcProductDaoImpl implements ProductDao {
 
     private static final String PATH_TO_DB = "src/main/resources/db/";
     private static final String DB_NAME = "shop.db";
@@ -26,12 +26,12 @@ public class DatabaseProductDaoImpl implements ProductDao {
             );
              """;
     private static final String CREATE_PRODUCT_QUERY = "INSERT INTO products (name, price) VALUES (?, ?);";
-    public static final String READ_ALL_PRODUCTS_QUERY = "SELECT * FROM products;";
-    public static final String READ_PRODUCT_WITH_ID_QUERY = "SELECT * FROM products WHERE id = ?;";
+    public static final String READ_ALL_PRODUCTS_QUERY = "SELECT id, name, price, created_date FROM products;";
+    public static final String READ_PRODUCT_WITH_ID_QUERY = "SELECT id, name, price, created_date FROM products WHERE id = ?;";
     private static final String UPDATE_PRODUCT_QUERY = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final String DELETE_PRODUCT_QUERY = "DELETE FROM products WHERE id = ?;";
 
-    public DatabaseProductDaoImpl() throws SQLException {
+    public JdbcProductDaoImpl() throws SQLException {
         try (Connection connection = connect();
              Statement statement = connection.createStatement()) {
             statement.execute(CREATE_TABLE_QUERY);
@@ -57,9 +57,9 @@ public class DatabaseProductDaoImpl implements ProductDao {
         List<Product> products = new ArrayList<>();
 
         try (Connection connection = connect();
-             Statement statement = connection.createStatement()) {
+             PreparedStatement preparedStatement = connection.prepareStatement(READ_ALL_PRODUCTS_QUERY)) {
 
-            ResultSet resultSet = statement.executeQuery(READ_ALL_PRODUCTS_QUERY);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Product product = readProductFrom(resultSet);
                 products.add(product);
