@@ -1,4 +1,4 @@
-package com.shop.helper;
+package com.shop.web.handler;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.experimental.UtilityClass;

@@ -1,4 +1,4 @@
-package com.shop.helper;
+package com.shop.web;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

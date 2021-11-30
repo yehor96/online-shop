@@ -1,6 +1,6 @@
-package com.shop.servlet;
+package com.shop.web.servlet;
 
-import com.shop.helper.PageProvider;
+import com.shop.web.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

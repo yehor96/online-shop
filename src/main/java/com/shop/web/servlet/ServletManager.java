@@ -1,4 +1,4 @@
-package com.shop.servlet;
+package com.shop.web.servlet;
 
 import com.shop.dao.ProductDao;
 import org.eclipse.jetty.servlet.ServletContextHandler;

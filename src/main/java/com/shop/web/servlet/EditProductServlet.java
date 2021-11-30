@@ -1,9 +1,9 @@
-package com.shop.servlet;
+package com.shop.web.servlet;
 
 import com.shop.dao.ProductDao;
 import com.shop.entity.Product;
-import com.shop.helper.ErrorHandler;
-import com.shop.helper.PageProvider;
+import com.shop.web.handler.ErrorHandler;
+import com.shop.web.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

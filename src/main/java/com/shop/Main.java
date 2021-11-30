@@ -1,7 +1,7 @@
 package com.shop;
 
 import com.shop.dao.JdbcProductDaoImpl;
-import com.shop.servlet.ServletManager;
+import com.shop.web.servlet.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 

@@ -1,6 +1,7 @@
 package com.shop.dao;
 
 import com.shop.entity.Product;
+import com.shop.mapper.ProductRowMapper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcProductDaoImpl implements ProductDao {
+
+    private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
 
     private static final String PATH_TO_DB = "src/main/resources/db/";
     private static final String DB_NAME = "shop.db";
@@ -61,7 +64,7 @@ public class JdbcProductDaoImpl implements ProductDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Product product = readProductFrom(resultSet);
+                Product product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
                 products.add(product);
             }
 
@@ -83,7 +86,7 @@ public class JdbcProductDaoImpl implements ProductDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                product = readProductFrom(resultSet);
+                product = PRODUCT_ROW_MAPPER.mapRow(resultSet);
             }
 
         } catch (SQLException e) {
@@ -123,14 +126,5 @@ public class JdbcProductDaoImpl implements ProductDao {
 
     private Connection connect() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:" + PATH_TO_DB + DB_NAME);
-    }
-
-    private Product readProductFrom(ResultSet resultSet) throws SQLException {
-        return Product.builder()
-                .id(resultSet.getLong(1))
-                .name(resultSet.getString(2))
-                .price(resultSet.getDouble(3))
-                .createdDate(resultSet.getDate(4).toLocalDate())
-                .build();
     }
 }
