@@ -1,7 +1,7 @@
 package com.shop.web.servlet;
 
 import com.shop.service.ProductService;
-import com.shop.web.handler.ErrorHandler;
+import com.shop.web.handler.ResponseErrorHandler;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +14,7 @@ import java.io.IOException;
 public class DeleteProductServlet extends HttpServlet {
 
     private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
+    private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
     private final ProductService productService;
 
@@ -27,7 +28,7 @@ public class DeleteProductServlet extends HttpServlet {
             Long id = PARAMETER_HANDLER.getAsLong(request, "id");
             productService.delete(id);
         } catch (IllegalArgumentException e) {
-            ErrorHandler.processBadRequest(response,
+            ERROR_HANDLER.processBadRequest(response,
                     "Not able to delete a product, since provided id is not valid");
         }
 

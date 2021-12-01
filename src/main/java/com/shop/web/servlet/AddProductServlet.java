@@ -3,7 +3,7 @@ package com.shop.web.servlet;
 import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.ErrorHandler;
+import com.shop.web.handler.ResponseErrorHandler;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 public class AddProductServlet extends HttpServlet {
 
     private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
+    private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
     private final ProductService productService;
 
@@ -45,7 +46,7 @@ public class AddProductServlet extends HttpServlet {
                     .build();
             productService.save(product);
         } catch (IllegalArgumentException e) {
-            ErrorHandler.processBadRequest(response,
+            ERROR_HANDLER.processBadRequest(response,
                     "Not able to add a product, since provided values are not valid");
         }
 

@@ -9,11 +9,9 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode
 @Getter
 public class Product {
-
-    @EqualsAndHashCode.Include
     private long id;
     private String name;
     private double price;
