@@ -7,8 +7,6 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-import static java.time.format.DateTimeFormatter.ofPattern;
-
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -20,10 +18,4 @@ public class Product {
     private String name;
     private double price;
     private LocalDate createdDate;
-
-    @Override
-    public String toString() {
-        return "id #%d %s for $%s created at %s"
-                .formatted(id, name, price, createdDate.format(ofPattern("dd MMM yyyy")));
-    }
 }
