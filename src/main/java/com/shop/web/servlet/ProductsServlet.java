@@ -6,6 +6,7 @@ import com.shop.web.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -15,13 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class ProductsServlet extends HttpServlet {
 
     private final ProductService productService;
-
-    public ProductsServlet(ProductService productService) {
-        this.productService = productService;
-    }
+    private final List<String> tokenStorage;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

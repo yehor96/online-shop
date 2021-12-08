@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,6 +21,8 @@ class AddProductServletTest {
     @Mock
     private ProductService mockProductService;
     @Mock
+    private List<String> cookies;
+    @Mock
     private HttpServletRequest mockHttpServletRequest;
     @Mock
     private HttpServletResponse mockHttpServletResponse;
@@ -30,8 +33,8 @@ class AddProductServletTest {
     }
 
     @Test
-    void testDoPostInvokesRequiredMethods() throws IOException {
-        AddProductServlet addProductServlet = new AddProductServlet(mockProductService);
+    void testDoPostInvokesRequiredMethodsWhenUserLoggedIn() throws IOException {
+        AddProductServlet addProductServlet = new AddProductServlet(mockProductService, cookies);
         String name = "test_name";
         double price = 15.0;
         Product product = Product.builder().name(name).price(price).build();

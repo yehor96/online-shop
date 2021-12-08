@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,6 +19,8 @@ class DeleteProductServletTest {
 
     @Mock
     private ProductService mockProductService;
+    @Mock
+    private List<String> cookies;
     @Mock
     private HttpServletRequest mockHttpServletRequest;
     @Mock
@@ -30,7 +33,7 @@ class DeleteProductServletTest {
 
     @Test
     void testDoPostInvokesRequiredMethods() throws IOException {
-        DeleteProductServlet addProductServlet = new DeleteProductServlet(mockProductService);
+        DeleteProductServlet addProductServlet = new DeleteProductServlet(mockProductService, cookies);
         Long testId = 1L;
 
         when(mockHttpServletRequest.getParameter("id")).thenReturn(String.valueOf(testId));
