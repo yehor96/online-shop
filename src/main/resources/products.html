@@ -15,6 +15,16 @@
     </header>
     <hr>
 
+    <#if login == "false">
+        <div class="login">
+            <a href="/login" class="button">Login here</a>
+        </div>
+    <#else>
+        <div class="login">
+            <p>You are logged in</p>
+        </div>
+    </#if>
+
 <form action="/products/add" method="GET">
     <input type="submit" value="  Add product  "/>
 </form>

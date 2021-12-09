@@ -22,3 +22,8 @@ h5 {
   border-bottom: 1px solid #333333;
   border-left: 1px solid #CCCCCC;
 }
+.login {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline;
+}
