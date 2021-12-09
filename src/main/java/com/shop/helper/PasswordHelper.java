@@ -15,4 +15,11 @@ public class PasswordHelper {
         return faker.random().hex(8);
     }
 
+    public boolean isPasswordValid(String password) {
+        return !(password == null ||
+                password.isBlank() ||
+                password.length() < 5 ||
+                password.contains(" "));
+    }
+
 }

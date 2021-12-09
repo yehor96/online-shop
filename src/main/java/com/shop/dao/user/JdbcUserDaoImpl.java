@@ -47,6 +47,7 @@ public class JdbcUserDaoImpl implements UserDao {
             preparedStatement.execute();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to add user " + user);
         }
     }
@@ -66,6 +67,7 @@ public class JdbcUserDaoImpl implements UserDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to find user with username: " + username);
         }
 

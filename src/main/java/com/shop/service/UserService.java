@@ -23,11 +23,15 @@ public class UserService {
         userDao.addNew(user);
     }
 
-    public boolean isRegistered(User user) {
+    public boolean areValidCredentials(User user) {
         return userDao.findOne(user.getUsername())
                 .map(existingUser -> {
-                    String password = PASSWORD_HELPER.hash(user.getPassword() + existingUser.getSalt());
-                    return password.equals(existingUser.getPassword());
+                    String enteredPassword = PASSWORD_HELPER.hash(user.getPassword() + existingUser.getSalt());
+                    return enteredPassword.equals(existingUser.getPassword());
                 }).orElse(false);
+    }
+
+    public boolean isRegistered(String username) {
+        return userDao.findOne(username).isPresent();
     }
 }

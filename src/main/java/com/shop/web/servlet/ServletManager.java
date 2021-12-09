@@ -15,6 +15,8 @@ public class ServletManager {
 
         CssServlet cssServlet = new CssServlet();
         FailedLoginServlet failedLoginServlet = new FailedLoginServlet();
+        FailedRegistrationServlet failedRegistrationServlet = new FailedRegistrationServlet();
+        RegistrationServlet registrationServlet = new RegistrationServlet(userService, tokenStorage);
         LoginServlet loginServlet = new LoginServlet(userService, tokenStorage);
 
         ProductsServlet productsServlet = new ProductsServlet(productService, tokenStorage);
@@ -30,6 +32,8 @@ public class ServletManager {
         editProductServlet.addMapping(context);
         loginServlet.addMapping(context);
         failedLoginServlet.addMapping(context);
+        registrationServlet.addMapping(context);
+        failedRegistrationServlet.addMapping(context);
 
         return context;
     }

@@ -1,6 +1,7 @@
 package com.shop.web.servlet;
 
 import com.shop.entity.User;
+import com.shop.helper.PasswordHelper;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.UserSessionHandler;
@@ -17,41 +18,39 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class LoginServlet extends HttpServlet {
+public class RegistrationServlet extends HttpServlet {
 
     private static final UserSessionHandler USER_SESSION_HANDLER = new UserSessionHandler();
+    private static final PasswordHelper PASSWORD_HELPER = new PasswordHelper();
 
     private final UserService userService;
     private final List<String> tokenStorage;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (USER_SESSION_HANDLER.isLoggedIn(tokenStorage, request)) {
-            response.sendRedirect("/products");
-        } else {
-            try (PrintWriter writer = response.getWriter()) {
-                writer.println(PageProvider.getPage("login.html"));
-            }
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_OK);
+        try (PrintWriter writer = response.getWriter()) {
+            writer.println(PageProvider.getPage("registration.html"));
         }
+        response.setContentType("text/html;charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = User.builder().username(username).password(password).build();
 
-        if (userService.areValidCredentials(user)) {
+        if (userService.isRegistered(username) || !PASSWORD_HELPER.isPasswordValid(password)) {
+            response.sendRedirect("/failed_registration");
+        } else {
+            User user = User.builder().username(username).password(password).build();
+            userService.addNew(user);
             USER_SESSION_HANDLER.addUserToken(tokenStorage, response);
             response.sendRedirect("/products");
-        } else {
-            response.sendRedirect("/failed_login");
         }
     }
 
     public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "/login");
+        context.addServlet(new ServletHolder(this), "/registration");
     }
 }

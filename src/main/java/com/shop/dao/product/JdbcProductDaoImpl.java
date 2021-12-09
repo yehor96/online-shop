@@ -51,6 +51,7 @@ public class JdbcProductDaoImpl implements ProductDao {
             preparedStatement.execute();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to save the product " + product);
         }
     }
@@ -69,6 +70,7 @@ public class JdbcProductDaoImpl implements ProductDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to read products");
         }
 
@@ -90,6 +92,7 @@ public class JdbcProductDaoImpl implements ProductDao {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to read product with id #" + id);
         }
 
@@ -107,6 +110,7 @@ public class JdbcProductDaoImpl implements ProductDao {
             preparedStatement.execute();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to update the product " + product);
         }
     }
@@ -120,6 +124,7 @@ public class JdbcProductDaoImpl implements ProductDao {
             preparedStatement.execute();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("Not able to delete the product " + id);
         }
     }
