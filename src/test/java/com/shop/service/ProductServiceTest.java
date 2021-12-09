@@ -1,7 +1,7 @@
 package com.shop.service;
 
-import com.shop.dao.JdbcProductDaoImpl;
-import com.shop.dao.ProductDao;
+import com.shop.dao.product.JdbcProductDaoImpl;
+import com.shop.dao.product.ProductDao;
 import com.shop.entity.Product;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

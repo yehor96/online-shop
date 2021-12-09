@@ -1,17 +1,15 @@
 package com.shop.service;
 
-import com.shop.dao.ProductDao;
+import com.shop.dao.product.ProductDao;
 import com.shop.entity.Product;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductDao productDao;
-
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 
     public List<Product> findAll() {
         return productDao.findAll();

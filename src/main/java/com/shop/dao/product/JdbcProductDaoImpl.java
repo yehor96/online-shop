@@ -1,4 +1,4 @@
-package com.shop.dao;
+package com.shop.dao.product;
 
 import com.shop.entity.Product;
 import com.shop.mapper.ProductRowMapper;

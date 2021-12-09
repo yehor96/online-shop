@@ -1,5 +1,7 @@
 package com.shop.web.servlet;
 
+import com.shop.entity.User;
+import com.shop.service.UserService;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class LoginServlet extends HttpServlet {
 
+    private final UserService userService;
     private final List<String> tokenStorage;
 
     @Override
@@ -31,11 +34,19 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String uuid = UUID.randomUUID().toString();
-        Cookie cookie = new Cookie("user-token", uuid);
-        tokenStorage.add(cookie.getValue());
-        response.addCookie(cookie);
-        response.sendRedirect("/products");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = User.builder().username(username).password(password).build();
+
+        if (userService.isRegistered(user)) {
+            String uuid = UUID.randomUUID().toString();
+            Cookie cookie = new Cookie("user-token", uuid);
+            tokenStorage.add(cookie.getValue());
+            response.addCookie(cookie);
+            response.sendRedirect("/products");
+        } else {
+            response.sendRedirect("/failed_login");
+        }
     }
 
     public void addMapping(ServletContextHandler context) {
