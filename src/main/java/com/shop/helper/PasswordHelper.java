@@ -11,15 +11,14 @@ public class PasswordHelper {
             <br>- Not be blank
             <br>- Not contain spaces
             """;
-
-    private final Faker faker = new Faker();
+    private static final Faker FAKER = new Faker();
 
     public String hash(String value) {
         return DigestUtils.md5Hex(value);
     }
 
     public String generateSalt() {
-        return faker.random().hex(8);
+        return FAKER.random().hex(8);
     }
 
     public boolean isPasswordValid(String password) {
