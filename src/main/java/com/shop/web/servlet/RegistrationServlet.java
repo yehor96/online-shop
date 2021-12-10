@@ -5,6 +5,7 @@ import com.shop.helper.PasswordHelper;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.UserSessionHandler;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
+import static com.shop.helper.PasswordHelper.PASSWORD_IS_NOT_VALID_MESSAGE;
 
 @RequiredArgsConstructor
 public class RegistrationServlet extends HttpServlet {
@@ -40,8 +43,14 @@ public class RegistrationServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (userService.isRegistered(username) || !PASSWORD_HELPER.isPasswordValid(password)) {
-            response.sendRedirect("/failed_registration");
+        if (userService.isRegistered(username)) {
+            request.setAttribute("message", "User with username " + username + " already exists");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/failed_registration");
+            dispatcher.forward(request, response);
+        } else if (!PASSWORD_HELPER.isPasswordValid(password)) {
+            request.setAttribute("message", PASSWORD_IS_NOT_VALID_MESSAGE);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/failed_registration");
+            dispatcher.forward(request, response);
         } else {
             User user = User.builder().username(username).password(password).build();
             userService.addNew(user);

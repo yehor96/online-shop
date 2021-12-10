@@ -10,13 +10,17 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FailedRegistrationServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter writer = response.getWriter()) {
-            writer.println(PageProvider.getPage("failed_registration.html"));
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("message", request.getAttribute("message"));
+            writer.println(PageProvider.getPage("failed_registration.html", parameters));
         }
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
