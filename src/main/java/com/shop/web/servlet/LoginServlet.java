@@ -3,6 +3,7 @@ package com.shop.web.servlet;
 import com.shop.entity.User;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.UserSessionHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ import java.util.List;
 public class LoginServlet extends HttpServlet {
 
     private static final UserSessionHandler USER_SESSION_HANDLER = new UserSessionHandler();
+    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
 
     private final UserService userService;
     private final List<String> tokenStorage;
@@ -39,8 +41,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = PARAMETER_HANDLER.getAsString(request, "username");
+        String password = PARAMETER_HANDLER.getAsString(request, "password");
         User user = User.builder().username(username).password(password).build();
 
         if (userService.areValidCredentials(user)) {

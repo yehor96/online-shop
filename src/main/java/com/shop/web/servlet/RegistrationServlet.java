@@ -4,6 +4,7 @@ import com.shop.entity.User;
 import com.shop.helper.PasswordHelper;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.UserSessionHandler;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,7 @@ public class RegistrationServlet extends HttpServlet {
 
     private static final UserSessionHandler USER_SESSION_HANDLER = new UserSessionHandler();
     private static final PasswordHelper PASSWORD_HELPER = new PasswordHelper();
+    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
 
     private final UserService userService;
     private final List<String> tokenStorage;
@@ -40,8 +42,8 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = PARAMETER_HANDLER.getAsString(request, "username");
+        String password = PARAMETER_HANDLER.getAsString(request, "password");
 
         if (userService.isRegistered(username)) {
             request.setAttribute("message", "User with username " + username + " already exists");
