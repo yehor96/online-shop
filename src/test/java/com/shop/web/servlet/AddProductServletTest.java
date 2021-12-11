@@ -36,20 +36,20 @@ class AddProductServletTest {
     @Test
     @Disabled // TODO update test
     void testDoPostInvokesRequiredMethodsWhenUserLoggedIn() throws IOException {
-        AddProductServlet addProductServlet = new AddProductServlet(mockProductService, cookies);
-        String name = "test_name";
-        double price = 15.0;
-        Product product = Product.builder().name(name).price(price).build();
-
-        when(mockHttpServletRequest.getParameter("name")).thenReturn(name);
-        when(mockHttpServletRequest.getParameter("price")).thenReturn(String.valueOf(price));
-        when(mockHttpServletRequest.getContextPath()).thenReturn("");
-
-        addProductServlet.doPost(mockHttpServletRequest, mockHttpServletResponse);
-
-        verify(mockProductService, times(1))
-                .save(product);
-        verify(mockHttpServletResponse, times(1))
-                .sendRedirect("/products");
+//        AddProductServlet addProductServlet = new AddProductServlet(mockProductService, cookies);
+//        String name = "test_name";
+//        double price = 15.0;
+//        Product product = Product.builder().name(name).price(price).build();
+//
+//        when(mockHttpServletRequest.getParameter("name")).thenReturn(name);
+//        when(mockHttpServletRequest.getParameter("price")).thenReturn(String.valueOf(price));
+//        when(mockHttpServletRequest.getContextPath()).thenReturn("");
+//
+//        addProductServlet.doPost(mockHttpServletRequest, mockHttpServletResponse);
+//
+//        verify(mockProductService, times(1))
+//                .save(product);
+//        verify(mockHttpServletResponse, times(1))
+//                .sendRedirect("/products");
     }
 }

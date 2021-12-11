@@ -2,10 +2,10 @@ package com.shop.web.servlet;
 
 import com.shop.entity.Product;
 import com.shop.service.ProductService;
+import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.ResponseErrorHandler;
 import com.shop.web.handler.RequestParameterHandler;
-import com.shop.web.handler.UserSessionHandler;
+import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +16,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -24,16 +23,13 @@ public class EditProductServlet extends HttpServlet {
 
     private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
     private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
-    private static final UserSessionHandler USER_SESSION_HANDLER = new UserSessionHandler();
 
     private final ProductService productService;
-    private final List<String> tokenStorage;
+    private final SecurityService securityService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!USER_SESSION_HANDLER.isLoggedIn(tokenStorage, request)) {
-            response.sendRedirect("/login");
-        } else {
+        if (securityService.isLoggedIn(request)) {
             Map<String, Object> idParameter = new HashMap<>();
             String id = PARAMETER_HANDLER.getAsString(request, "id");
             idParameter.put("id", id);
@@ -43,14 +39,14 @@ public class EditProductServlet extends HttpServlet {
             }
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.sendRedirect("/login");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!USER_SESSION_HANDLER.isLoggedIn(tokenStorage, request)) {
-            response.sendRedirect("/login");
-        } else {
+        if (securityService.isLoggedIn(request)) {
             try {
                 Long id = PARAMETER_HANDLER.getAsLong(request, "id");
                 String name = PARAMETER_HANDLER.getAsString(request, "name");
@@ -66,8 +62,9 @@ public class EditProductServlet extends HttpServlet {
                 ERROR_HANDLER.processBadRequest(response,
                         "Not able to edit product, since provided values are not valid");
             }
-
             response.sendRedirect(request.getContextPath() + "/products");
+        } else {
+            response.sendRedirect("/login");
         }
     }
 

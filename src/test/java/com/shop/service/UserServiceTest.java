@@ -19,12 +19,14 @@ import static org.mockito.Mockito.when;
 class UserServiceTest {
 
     private static UserService userService;
+    private static SecurityService mockSecurityService;
     private static UserDao mockDao;
 
     @BeforeAll
     static void beforeAll() {
         mockDao = mock(JdbcUserDaoImpl.class);
-        userService = new UserService(mockDao);
+        mockSecurityService = mock(SecurityService.class);
+        userService = new UserService(mockDao, mockSecurityService);
     }
 
     @Test
