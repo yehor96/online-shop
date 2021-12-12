@@ -66,6 +66,7 @@ class UserServiceTest {
                 .build();
 
         when(mockDao.findOne(username)).thenReturn(Optional.of(existingUser));
+        when(mockSecurityService.isPasswordValidForUser(password, existingUser)).thenReturn(true);
 
         assertTrue(userService.areValidCredentials(userUnderTest));
     }
@@ -88,6 +89,22 @@ class UserServiceTest {
                 .build();
 
         when(mockDao.findOne(username)).thenReturn(Optional.of(existingUser));
+        when(mockSecurityService.isPasswordValidForUser(password, existingUser)).thenReturn(false);
+
+        assertFalse(userService.areValidCredentials(userUnderTest));
+    }
+
+    @Test
+    void testAreValidCredentialsReturnsFalseWhenPassingNotRegisteredUsername() {
+        String username = "user1";
+        String password = "pswd";
+
+        User userUnderTest = User.builder()
+                .username(username)
+                .password(password)
+                .build();
+
+        when(mockDao.findOne(username)).thenReturn(Optional.empty());
 
         assertFalse(userService.areValidCredentials(userUnderTest));
     }
@@ -119,6 +136,8 @@ class UserServiceTest {
 
         userService.addNew(user);
 
+        verify(mockSecurityService, times(1))
+                .addSalt(any(User.class));
         verify(mockDao, times(1))
                 .addNew(any(User.class));
     }

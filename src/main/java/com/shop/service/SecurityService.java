@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -24,16 +23,17 @@ public class SecurityService {
             """;
     private static final String TOKEN_KEY = "user-token";
     private static final Faker FAKER = new Faker();
-    private static final List<String> TOKEN_STORAGE = new ArrayList<>();
+
+    private final List<String> tokenStorage;
 
     public boolean isLoggedIn(HttpServletRequest request) {
         return Stream.of(request.getCookies())
-                .anyMatch(cookie -> TOKEN_STORAGE.contains(cookie.getValue()));
+                .anyMatch(cookie -> tokenStorage.contains(cookie.getValue()));
     }
 
     public void addUserToken(HttpServletResponse response) {
         String tokenValue = getTokenValue();
-        TOKEN_STORAGE.add(tokenValue);
+        tokenStorage.add(tokenValue);
 
         Cookie cookie = new Cookie(TOKEN_KEY, tokenValue);
         response.addCookie(cookie);
@@ -60,15 +60,15 @@ public class SecurityService {
                 password.contains(" "));
     }
 
-    private String hash(String value) {
+    String hash(String value) {
         return DigestUtils.md5Hex(value);
     }
 
-    private String generateSalt() {
+    String generateSalt() {
         return FAKER.random().hex(8);
     }
 
-    private String getTokenValue() {
+    String getTokenValue() {
         return UUID.randomUUID().toString();
     }
 
