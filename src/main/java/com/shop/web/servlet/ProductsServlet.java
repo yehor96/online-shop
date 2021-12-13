@@ -4,6 +4,7 @@ import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,9 @@ public class ProductsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Product> products = productService.findAll();
-        boolean isLoggedIn = securityService.isLoggedIn(request);
+
+        Cookie[] cookies = request.getCookies();
+        boolean isLoggedIn = securityService.isLoggedIn(cookies);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("products", products);

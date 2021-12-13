@@ -7,6 +7,7 @@ import com.shop.web.PageProvider;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,7 +53,8 @@ public class RegistrationServlet extends HttpServlet {
         } else {
             User user = User.builder().username(username).password(password).build();
             userService.addNew(user);
-            securityService.addUserToken(response);
+            Cookie cookie = securityService.getCookie();
+            response.addCookie(cookie);
             response.sendRedirect("/products");
         }
     }

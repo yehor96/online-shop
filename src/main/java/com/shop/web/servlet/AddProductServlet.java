@@ -6,6 +6,7 @@ import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,7 +28,8 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isLoggedIn(request))  {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies))  {
             try (PrintWriter writer = response.getWriter()) {
                 writer.println(PageProvider.getPage("products_add.html"));
             }
@@ -40,7 +42,8 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isLoggedIn(request))  {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies))  {
             try {
                 String name = PARAMETER_HANDLER.getAsString(request, "name");
                 Double price = PARAMETER_HANDLER.getAsDouble(request, "price");

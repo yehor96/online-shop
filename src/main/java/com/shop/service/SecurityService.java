@@ -3,12 +3,11 @@ package com.shop.service;
 import com.github.javafaker.Faker;
 import com.shop.entity.User;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -26,17 +25,19 @@ public class SecurityService {
 
     private final List<String> tokenStorage;
 
-    public boolean isLoggedIn(HttpServletRequest request) {
-        return Stream.of(request.getCookies())
+    public boolean isLoggedIn(Cookie[] cookies) {
+        if (Objects.isNull(cookies)) {
+            return false;
+        }
+
+        return Stream.of(cookies)
                 .anyMatch(cookie -> tokenStorage.contains(cookie.getValue()));
     }
 
-    public void addUserToken(HttpServletResponse response) {
+    public Cookie getCookie() {
         String tokenValue = getTokenValue();
         tokenStorage.add(tokenValue);
-
-        Cookie cookie = new Cookie(TOKEN_KEY, tokenValue);
-        response.addCookie(cookie);
+        return new Cookie(TOKEN_KEY, tokenValue);
     }
 
     public void addSalt(User user) {

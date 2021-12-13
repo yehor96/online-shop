@@ -40,11 +40,9 @@ class SecurityServiceTest {
         String key = "user-token";
         String value = "a4fc4f5a-fe08-4120-ad49-a2dd55ee8ce0";
 
-        HttpServletRequest mockedRequest = mock(HttpServletRequest.class);
-        when(mockedRequest.getCookies()).thenReturn(new Cookie[]{new Cookie(key, value)});
         when(mockTokenStorage.contains(value)).thenReturn(true);
 
-        assertTrue(securityService.isLoggedIn(mockedRequest));
+        assertTrue(securityService.isLoggedIn(new Cookie[]{new Cookie(key, value)}));
     }
 
     @Test
@@ -52,23 +50,21 @@ class SecurityServiceTest {
         String key = "user-token";
         String value = "a4fc4f5a-fe08-4120-ad49-a2dd55ee8ce0";
 
-        HttpServletRequest mockedRequest = mock(HttpServletRequest.class);
-        when(mockedRequest.getCookies()).thenReturn(new Cookie[]{new Cookie(key, value)});
         when(mockTokenStorage.contains(value)).thenReturn(false);
 
-        assertFalse(securityService.isLoggedIn(mockedRequest));
+        assertFalse(securityService.isLoggedIn(new Cookie[]{new Cookie(key, value)}));
     }
 
     @Test
-    void testAddUserTokenAddsCookieToResponseAndTokenStorage() {
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+    void testGetCookieAddsNewCookieToStorageAndReturnsIt() {
+        Cookie cookie = securityService.getCookie();
 
-        securityService.addUserToken(mockResponse);
+        assertNotNull(cookie);
+        assertNotNull(cookie.getValue());
+        assertNotNull(cookie.getName());
 
         verify(mockTokenStorage, times(1))
-                .add(anyString());
-        verify(mockResponse, times(1))
-                .addCookie(any(Cookie.class));
+                .add(cookie.getValue());
     }
 
     @Test

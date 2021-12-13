@@ -6,6 +6,7 @@ import com.shop.service.UserService;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (securityService.isLoggedIn(request)) {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies)) {
             response.sendRedirect("/products");
         } else {
             try (PrintWriter writer = response.getWriter()) {
@@ -44,7 +46,8 @@ public class LoginServlet extends HttpServlet {
         User user = User.builder().username(username).password(password).build();
 
         if (userService.areValidCredentials(user)) {
-            securityService.addUserToken(response);
+            Cookie cookie = securityService.getCookie();
+            response.addCookie(cookie);
             response.sendRedirect("/products");
         } else {
             response.sendRedirect("/failed_login");

@@ -4,6 +4,7 @@ import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +25,8 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isLoggedIn(request)) {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies)) {
             try {
                 Long id = PARAMETER_HANDLER.getAsLong(request, "id");
                 productService.delete(id);

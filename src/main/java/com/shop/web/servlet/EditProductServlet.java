@@ -6,6 +6,7 @@ import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +30,8 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isLoggedIn(request)) {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies)) {
             Map<String, Object> idParameter = new HashMap<>();
             String id = PARAMETER_HANDLER.getAsString(request, "id");
             idParameter.put("id", id);
@@ -46,7 +48,8 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (securityService.isLoggedIn(request)) {
+        Cookie[] cookies = request.getCookies();
+        if (securityService.isLoggedIn(cookies)) {
             try {
                 Long id = PARAMETER_HANDLER.getAsLong(request, "id");
                 String name = PARAMETER_HANDLER.getAsString(request, "name");
