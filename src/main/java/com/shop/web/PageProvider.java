@@ -18,6 +18,7 @@ public class PageProvider {
     private static final String ROOT = "src/main/resources";
     private static Configuration config;
 
+    //TODO remove static init -> use constructor
     static {
         initConfig();
     }

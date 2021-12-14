@@ -26,8 +26,8 @@ public class FailedRegistrationServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "/failed_registration");
+    public void addMapping(ServletContextHandler contextHandler) {
+        contextHandler.addServlet(new ServletHolder(this), "/failed_registration");
     }
 
 }

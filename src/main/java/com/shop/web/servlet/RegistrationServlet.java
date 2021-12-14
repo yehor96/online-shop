@@ -57,7 +57,7 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
-    public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "/registration");
+    public void addMapping(ServletContextHandler contextHandler) {
+        contextHandler.addServlet(new ServletHolder(this), "/registration");
     }
 }

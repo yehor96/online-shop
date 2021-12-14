@@ -42,8 +42,8 @@ public class ProductsServlet extends HttpServlet {
         }
     }
 
-    public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "");
-        context.addServlet(new ServletHolder(this), "/products");
+    public void addMapping(ServletContextHandler contextHandler) {
+        contextHandler.addServlet(new ServletHolder(this), "");
+        contextHandler.addServlet(new ServletHolder(this), "/products");
     }
 }

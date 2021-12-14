@@ -1,29 +1,32 @@
 package com.shop.web.servlet;
 
-import com.shop.web.PageProvider;
+import com.shop.service.SecurityService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
-public class FailedLoginServlet extends HttpServlet {
+@RequiredArgsConstructor
+public class LogoutServlet extends HttpServlet {
+
+    private final SecurityService securityService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try (PrintWriter writer = response.getWriter()) {
-            writer.println(PageProvider.getPage("failed_login.html"));
-        }
-        response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        securityService.clearUserTokens(userTokens);
+
+        response.addCookie(securityService.generateRemovalCookie());
+        response.sendRedirect("/products");
     }
 
     public void addMapping(ServletContextHandler contextHandler) {
-        contextHandler.addServlet(new ServletHolder(this), "/failed_login");
+        contextHandler.addServlet(new ServletHolder(this), "/logout");
     }
-
 }

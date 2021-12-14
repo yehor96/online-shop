@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "/login");
+    public void addMapping(ServletContextHandler contextHandler) {
+        contextHandler.addServlet(new ServletHolder(this), "/login");
     }
 }

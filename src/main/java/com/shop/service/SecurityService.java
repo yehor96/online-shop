@@ -21,7 +21,7 @@ public class SecurityService {
             <br>- Not be blank
             <br>- Not contain spaces
             """;
-    private static final String TOKEN_KEY = "user-token";
+    private static final String TOKEN_KEY = "user-os-token";
     private static final Faker FAKER = new Faker();
 
     private final List<String> tokenStorage = Collections.synchronizedList(new ArrayList<>());
@@ -54,6 +54,16 @@ public class SecurityService {
         String tokenValue = getTokenValue();
         tokenStorage.add(tokenValue);
         return new Cookie(TOKEN_KEY, tokenValue);
+    }
+
+    public Cookie generateRemovalCookie() {
+        Cookie cookie = new Cookie(TOKEN_KEY, "");
+        cookie.setMaxAge(0);
+        return cookie;
+    }
+
+    public void clearUserTokens(List<String> userTokens) {
+        tokenStorage.removeAll(userTokens);
     }
 
     public void addSalt(User user) {

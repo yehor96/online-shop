@@ -39,7 +39,7 @@ public class DeleteProductServlet extends HttpServlet {
         }
     }
 
-    public void addMapping(ServletContextHandler context) {
-        context.addServlet(new ServletHolder(this), "/products/delete");
+    public void addMapping(ServletContextHandler contextHandler) {
+        contextHandler.addServlet(new ServletHolder(this), "/products/delete");
     }
 }

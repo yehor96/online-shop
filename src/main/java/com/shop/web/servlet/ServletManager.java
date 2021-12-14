@@ -16,23 +16,25 @@ public class ServletManager {
         FailedRegistrationServlet failedRegistrationServlet = new FailedRegistrationServlet();
         RegistrationServlet registrationServlet = new RegistrationServlet(userService, securityService);
         LoginServlet loginServlet = new LoginServlet(securityService);
+        LogoutServlet logoutServlet = new LogoutServlet(securityService);
 
         ProductsServlet productsServlet = new ProductsServlet(productService, securityService);
         AddProductServlet addProductServlet = new AddProductServlet(productService, securityService);
         DeleteProductServlet deleteProductServlet = new DeleteProductServlet(productService, securityService);
         EditProductServlet editProductServlet = new EditProductServlet(productService, securityService);
 
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        cssServlet.addMapping(context);
-        productsServlet.addMapping(context);
-        addProductServlet.addMapping(context);
-        deleteProductServlet.addMapping(context);
-        editProductServlet.addMapping(context);
-        loginServlet.addMapping(context);
-        failedLoginServlet.addMapping(context);
-        registrationServlet.addMapping(context);
-        failedRegistrationServlet.addMapping(context);
+        ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        cssServlet.addMapping(contextHandler);
+        productsServlet.addMapping(contextHandler);
+        addProductServlet.addMapping(contextHandler);
+        deleteProductServlet.addMapping(contextHandler);
+        editProductServlet.addMapping(contextHandler);
+        loginServlet.addMapping(contextHandler);
+        failedLoginServlet.addMapping(contextHandler);
+        registrationServlet.addMapping(contextHandler);
+        failedRegistrationServlet.addMapping(contextHandler);
+        logoutServlet.addMapping(contextHandler);
 
-        return context;
+        return contextHandler;
     }
 }
