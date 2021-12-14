@@ -12,6 +12,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class DeleteProductServlet extends HttpServlet {
@@ -23,8 +24,8 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies)) {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             try {
                 long id = Long.parseLong(request.getParameter("id"));
                 productService.delete(id);

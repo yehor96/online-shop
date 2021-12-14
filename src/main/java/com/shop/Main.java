@@ -11,9 +11,6 @@ import com.shop.web.servlet.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -22,11 +19,11 @@ public class Main {
 
         ProductDao productDao = new JdbcProductDao();
         UserDao userDao = new JdbcUserDao();
-        List<String> tokenStorage = new ArrayList<>();
 
-        SecurityService securityService = new SecurityService(tokenStorage);
         ProductService productService = new ProductService(productDao);
-        UserService userService = new UserService(userDao, securityService);
+        UserService userService = new UserService(userDao);
+        SecurityService securityService = new SecurityService(userService);
+
 
         ServletContextHandler contextHandler = ServletManager.getContextHandler(productService, userService, securityService);
         server.setHandler(contextHandler);

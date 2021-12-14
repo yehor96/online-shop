@@ -39,7 +39,7 @@ public class RegistrationServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (userService.isRegistered(username)) {
+        if (securityService.isUserRegistered(username)) {
             request.setAttribute("message", "User with username " + username + " already exists");
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/failed_registration");
             dispatcher.forward(request, response);
@@ -49,8 +49,9 @@ public class RegistrationServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             User user = User.builder().username(username).password(password).build();
+            securityService.addSalt(user);
             userService.addNew(user);
-            Cookie cookie = securityService.getCookie();
+            Cookie cookie = securityService.generateCookie();
             response.addCookie(cookie);
             response.sendRedirect("/products");
         }

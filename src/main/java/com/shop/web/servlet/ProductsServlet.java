@@ -28,8 +28,8 @@ public class ProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Product> products = productService.findAll();
 
-        Cookie[] cookies = request.getCookies();
-        boolean isLoggedIn = securityService.isLoggedIn(cookies);
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        boolean isLoggedIn = securityService.isLoggedIn(userTokens);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("products", products);

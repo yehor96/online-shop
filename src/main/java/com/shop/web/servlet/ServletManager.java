@@ -15,7 +15,7 @@ public class ServletManager {
         FailedLoginServlet failedLoginServlet = new FailedLoginServlet();
         FailedRegistrationServlet failedRegistrationServlet = new FailedRegistrationServlet();
         RegistrationServlet registrationServlet = new RegistrationServlet(userService, securityService);
-        LoginServlet loginServlet = new LoginServlet(userService, securityService);
+        LoginServlet loginServlet = new LoginServlet(securityService);
 
         ProductsServlet productsServlet = new ProductsServlet(productService, securityService);
         AddProductServlet addProductServlet = new AddProductServlet(productService, securityService);

@@ -15,6 +15,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class AddProductServlet extends HttpServlet {
@@ -26,8 +27,8 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies))  {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             try (PrintWriter writer = response.getWriter()) {
                 writer.println(PageProvider.getPage("products_add.html"));
             }
@@ -40,8 +41,8 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies))  {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             try {
                 String name = request.getParameter( "name");
                 double price = Double.parseDouble(request.getParameter("price"));

@@ -2,7 +2,6 @@ package com.shop.web.servlet;
 
 import com.shop.entity.User;
 import com.shop.service.SecurityService;
-import com.shop.service.UserService;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -15,17 +14,17 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class LoginServlet extends HttpServlet {
 
-    private final UserService userService;
     private final SecurityService securityService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies)) {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             response.sendRedirect("/products");
         } else {
             try (PrintWriter writer = response.getWriter()) {
@@ -42,8 +41,8 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         User user = User.builder().username(username).password(password).build();
 
-        if (userService.areValidCredentials(user)) {
-            Cookie cookie = securityService.getCookie();
+        if (securityService.areValidCredentials(user)) {
+            Cookie cookie = securityService.generateCookie();
             response.addCookie(cookie);
             response.sendRedirect("/products");
         } else {

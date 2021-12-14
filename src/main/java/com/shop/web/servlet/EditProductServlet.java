@@ -16,6 +16,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -28,8 +29,8 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies)) {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             Map<String, Object> idParameter = new HashMap<>();
             String id = request.getParameter("id");
             idParameter.put("id", id);
@@ -46,8 +47,8 @@ public class EditProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        if (securityService.isLoggedIn(cookies)) {
+        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        if (securityService.isLoggedIn(userTokens)) {
             try {
                 long id = Long.parseLong(request.getParameter("id"));
                 String name = request.getParameter( "name");
