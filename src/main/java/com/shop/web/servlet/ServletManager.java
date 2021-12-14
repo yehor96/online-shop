@@ -7,9 +7,9 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class ServletManager {
 
-    public static ServletContextHandler getContext(ProductService productService,
-                                                   UserService userService,
-                                                   SecurityService securityService) {
+    public static ServletContextHandler getContextHandler(ProductService productService,
+                                                          UserService userService,
+                                                          SecurityService securityService) {
 
         CssServlet cssServlet = new CssServlet();
         FailedLoginServlet failedLoginServlet = new FailedLoginServlet();

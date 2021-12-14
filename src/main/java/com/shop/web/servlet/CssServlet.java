@@ -21,6 +21,5 @@ public class CssServlet extends HttpServlet {
 
     public void addMapping(ServletContextHandler context) {
         context.addServlet(new ServletHolder(this), "/css/*");
-        context.addServlet(new ServletHolder(this), "/products/css/*");
     }
 }

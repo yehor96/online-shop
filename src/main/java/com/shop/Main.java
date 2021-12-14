@@ -1,8 +1,8 @@
 package com.shop;
 
-import com.shop.dao.product.JdbcProductDaoImpl;
+import com.shop.dao.product.JdbcProductDao;
 import com.shop.dao.product.ProductDao;
-import com.shop.dao.user.JdbcUserDaoImpl;
+import com.shop.dao.user.JdbcUserDao;
 import com.shop.dao.user.UserDao;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
@@ -20,16 +20,16 @@ public class Main {
 
         Server server = new Server(8080);
 
-        ProductDao productDao = new JdbcProductDaoImpl();
-        UserDao userDao = new JdbcUserDaoImpl();
+        ProductDao productDao = new JdbcProductDao();
+        UserDao userDao = new JdbcUserDao();
         List<String> tokenStorage = new ArrayList<>();
 
         SecurityService securityService = new SecurityService(tokenStorage);
         ProductService productService = new ProductService(productDao);
         UserService userService = new UserService(userDao, securityService);
 
-        ServletContextHandler context = ServletManager.getContext(productService, userService, securityService);
-        server.setHandler(context);
+        ServletContextHandler contextHandler = ServletManager.getContextHandler(productService, userService, securityService);
+        server.setHandler(contextHandler);
 
         server.start();
     }

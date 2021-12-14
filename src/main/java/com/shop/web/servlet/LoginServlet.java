@@ -4,7 +4,6 @@ import com.shop.entity.User;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -19,8 +18,6 @@ import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 public class LoginServlet extends HttpServlet {
-
-    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
 
     private final UserService userService;
     private final SecurityService securityService;
@@ -41,8 +38,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = PARAMETER_HANDLER.getAsString(request, "username");
-        String password = PARAMETER_HANDLER.getAsString(request, "password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         User user = User.builder().username(username).password(password).build();
 
         if (userService.areValidCredentials(user)) {

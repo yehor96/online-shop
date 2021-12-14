@@ -1,4 +1,4 @@
-package com.shop.mapper;
+package com.shop.dao.mapper;
 
 import com.shop.entity.User;
 import org.junit.jupiter.api.Test;

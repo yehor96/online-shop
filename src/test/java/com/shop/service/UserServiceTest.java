@@ -1,6 +1,6 @@
 package com.shop.service;
 
-import com.shop.dao.user.JdbcUserDaoImpl;
+import com.shop.dao.user.JdbcUserDao;
 import com.shop.dao.user.UserDao;
 import com.shop.entity.User;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +24,7 @@ class UserServiceTest {
 
     @BeforeAll
     static void beforeAll() {
-        mockDao = mock(JdbcUserDaoImpl.class);
+        mockDao = mock(JdbcUserDao.class);
         mockSecurityService = mock(SecurityService.class);
         userService = new UserService(mockDao, mockSecurityService);
     }

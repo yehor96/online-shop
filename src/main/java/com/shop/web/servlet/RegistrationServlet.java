@@ -4,7 +4,6 @@ import com.shop.entity.User;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.RequestParameterHandler;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -23,8 +22,6 @@ import static com.shop.service.SecurityService.PASSWORD_IS_NOT_VALID_MESSAGE;
 @RequiredArgsConstructor
 public class RegistrationServlet extends HttpServlet {
 
-    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
-
     private final UserService userService;
     private final SecurityService securityService;
 
@@ -39,8 +36,8 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = PARAMETER_HANDLER.getAsString(request, "username");
-        String password = PARAMETER_HANDLER.getAsString(request, "password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
         if (userService.isRegistered(username)) {
             request.setAttribute("message", "User with username " + username + " already exists");

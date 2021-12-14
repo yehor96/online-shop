@@ -1,7 +1,7 @@
 package com.shop.dao.product;
 
 import com.shop.entity.Product;
-import com.shop.mapper.ProductRowMapper;
+import com.shop.dao.mapper.ProductRowMapper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class JdbcProductDaoImpl implements ProductDao {
+public class JdbcProductDao implements ProductDao {
 
     private static final ProductRowMapper PRODUCT_ROW_MAPPER = new ProductRowMapper();
 
@@ -34,7 +34,7 @@ public class JdbcProductDaoImpl implements ProductDao {
     private static final String UPDATE_PRODUCT_QUERY = "UPDATE products SET name = ?, price = ? WHERE id = ?;";
     private static final String DELETE_PRODUCT_QUERY = "DELETE FROM products WHERE id = ?;";
 
-    public JdbcProductDaoImpl() throws SQLException {
+    public JdbcProductDao() throws SQLException {
         try (Connection connection = connect();
              Statement statement = connection.createStatement()) {
             statement.execute(CREATE_TABLE_QUERY);

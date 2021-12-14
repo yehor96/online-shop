@@ -1,7 +1,7 @@
 package com.shop.dao.user;
 
 import com.shop.entity.User;
-import com.shop.mapper.UserRowMapper;
+import com.shop.dao.mapper.UserRowMapper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 
-public class JdbcUserDaoImpl implements UserDao {
+public class JdbcUserDao implements UserDao {
 
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
 
@@ -29,7 +29,7 @@ public class JdbcUserDaoImpl implements UserDao {
     private static final String ADD_USER_QUERY = "INSERT INTO users (username, password, salt) VALUES (?, ?, ?);";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
 
-    public JdbcUserDaoImpl() throws SQLException {
+    public JdbcUserDao() throws SQLException {
         try (Connection connection = connect();
              Statement statement = connection.createStatement()) {
             statement.execute(CREATE_TABLE_QUERY);

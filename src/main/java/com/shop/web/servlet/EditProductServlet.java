@@ -4,7 +4,6 @@ import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +21,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EditProductServlet extends HttpServlet {
 
-    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
     private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
     private final ProductService productService;
@@ -33,7 +31,7 @@ public class EditProductServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (securityService.isLoggedIn(cookies)) {
             Map<String, Object> idParameter = new HashMap<>();
-            String id = PARAMETER_HANDLER.getAsString(request, "id");
+            String id = request.getParameter("id");
             idParameter.put("id", id);
 
             try (PrintWriter writer = response.getWriter()) {
@@ -51,9 +49,9 @@ public class EditProductServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (securityService.isLoggedIn(cookies)) {
             try {
-                Long id = PARAMETER_HANDLER.getAsLong(request, "id");
-                String name = PARAMETER_HANDLER.getAsString(request, "name");
-                Double price = PARAMETER_HANDLER.getAsDouble(request, "price");
+                long id = Long.parseLong(request.getParameter("id"));
+                String name = request.getParameter( "name");
+                double price = Double.parseDouble(request.getParameter("price"));
 
                 Product product = Product.builder()
                         .id(id)

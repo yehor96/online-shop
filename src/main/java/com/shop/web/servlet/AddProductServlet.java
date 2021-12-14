@@ -4,7 +4,6 @@ import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.web.PageProvider;
-import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ import java.io.PrintWriter;
 @RequiredArgsConstructor
 public class AddProductServlet extends HttpServlet {
 
-    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
     private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
     private final ProductService productService;
@@ -45,8 +43,8 @@ public class AddProductServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (securityService.isLoggedIn(cookies))  {
             try {
-                String name = PARAMETER_HANDLER.getAsString(request, "name");
-                Double price = PARAMETER_HANDLER.getAsDouble(request, "price");
+                String name = request.getParameter( "name");
+                double price = Double.parseDouble(request.getParameter("price"));
 
                 Product product = Product.builder()
                         .name(name)

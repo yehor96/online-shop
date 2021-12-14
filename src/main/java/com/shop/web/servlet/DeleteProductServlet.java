@@ -2,7 +2,6 @@ package com.shop.web.servlet;
 
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
-import com.shop.web.handler.RequestParameterHandler;
 import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +16,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class DeleteProductServlet extends HttpServlet {
 
-    private static final RequestParameterHandler PARAMETER_HANDLER = new RequestParameterHandler();
     private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
     private final ProductService productService;
@@ -28,7 +26,7 @@ public class DeleteProductServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (securityService.isLoggedIn(cookies)) {
             try {
-                Long id = PARAMETER_HANDLER.getAsLong(request, "id");
+                long id = Long.parseLong(request.getParameter("id"));
                 productService.delete(id);
             } catch (IllegalArgumentException e) {
                 ERROR_HANDLER.processBadRequest(response,
