@@ -7,6 +7,7 @@ import com.shop.dao.user.UserDao;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
+import com.shop.web.PageProvider;
 import com.shop.web.servlet.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -24,8 +25,10 @@ public class Main {
         UserService userService = new UserService(userDao);
         SecurityService securityService = new SecurityService(userService);
 
+        PageProvider pageProvider = new PageProvider();
 
-        ServletContextHandler contextHandler = ServletManager.getContextHandler(productService, userService, securityService);
+        ServletContextHandler contextHandler = ServletManager.getContextHandler(
+                pageProvider, productService, userService, securityService);
         server.setHandler(contextHandler);
 
         server.start();

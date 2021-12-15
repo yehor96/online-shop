@@ -20,6 +20,7 @@ import java.util.List;
 public class LoginServlet extends HttpServlet {
 
     private final SecurityService securityService;
+    private final PageProvider pageProvider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("/products");
         } else {
             try (PrintWriter writer = response.getWriter()) {
-                writer.println(PageProvider.getPage("login.html"));
+                writer.println(pageProvider.getPage("login.html"));
             }
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

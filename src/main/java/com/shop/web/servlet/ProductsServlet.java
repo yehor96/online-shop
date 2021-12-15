@@ -23,6 +23,7 @@ public class ProductsServlet extends HttpServlet {
 
     private final ProductService productService;
     private final SecurityService securityService;
+    private final PageProvider pageProvider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,7 +37,7 @@ public class ProductsServlet extends HttpServlet {
         parameters.put("login", Boolean.toString(isLoggedIn));
 
         try (PrintWriter writer = response.getWriter()) {
-            writer.println(PageProvider.getPage("products.html", parameters));
+            writer.println(pageProvider.getPage("products.html", parameters));
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
         }

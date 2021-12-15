@@ -1,44 +1,26 @@
 package com.shop.dao.user;
 
-import com.shop.entity.User;
+import com.shop.dao.ConnectionManager;
 import com.shop.dao.mapper.UserRowMapper;
+import com.shop.entity.User;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 
 public class JdbcUserDao implements UserDao {
 
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
+    private static final ConnectionManager CONNECTION_MANAGER = new ConnectionManager();
 
-    private static final String PATH_TO_DB = "src/main/resources/db/";
-    private static final String DB_NAME = "shop.db";
-
-    private static final String CREATE_TABLE_QUERY = """
-            CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            salt TEXT NOT NULL
-            );
-             """;
     private static final String ADD_USER_QUERY = "INSERT INTO users (username, password, salt) VALUES (?, ?, ?);";
     private static final String GET_USER_BY_USERNAME_QUERY = "SELECT * FROM users WHERE username = ?";
 
-    public JdbcUserDao() throws SQLException {
-        try (Connection connection = connect();
-             Statement statement = connection.createStatement()) {
-            statement.execute(CREATE_TABLE_QUERY);
-        }
-    }
-
     @Override
     public void addNew(User user) {
-        try (Connection connection = connect();
+        try (Connection connection = CONNECTION_MANAGER.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER_QUERY)) {
 
             preparedStatement.setString(1, user.getUsername());
@@ -56,7 +38,7 @@ public class JdbcUserDao implements UserDao {
     public Optional<User> findOne(String username) {
         User user = null;
 
-        try (Connection connection = connect();
+        try (Connection connection = CONNECTION_MANAGER.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_USERNAME_QUERY)) {
 
             preparedStatement.setString(1, username);
@@ -72,10 +54,6 @@ public class JdbcUserDao implements UserDao {
         }
 
         return Optional.ofNullable(user);
-    }
-
-    private Connection connect() throws SQLException {
-        return DriverManager.getConnection("jdbc:sqlite:" + PATH_TO_DB + DB_NAME);
     }
 
 }

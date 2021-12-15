@@ -1,9 +1,9 @@
 package com.shop.web;
 
+import com.shop.helper.ClasspathReader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,21 +12,24 @@ import java.io.Writer;
 import java.util.Collections;
 import java.util.Map;
 
-@UtilityClass
 public class PageProvider {
 
-    private static final String ROOT = "src/main/resources";
-    private static Configuration config;
+    private static final Configuration CONFIG = new Configuration(Configuration.VERSION_2_3_31);
 
-    //TODO remove static init -> use constructor
-    static {
-        initConfig();
+    public PageProvider() {
+        String templatesPath = ClasspathReader.getFilePath("/templates");
+        try {
+            CONFIG.setDirectoryForTemplateLoading(new File(templatesPath));
+            CONFIG.setDefaultEncoding("UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException("Not able to configure PageProvider. " + e);
+        }
     }
 
-    public static String getPage(String filename, Map<String, Object> data) {
+    public String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            Template template = config.getTemplate(filename);
+            Template template = CONFIG.getTemplate(filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             throw new RuntimeException(e);
@@ -34,22 +37,12 @@ public class PageProvider {
         return stream.toString();
     }
 
-    public static String getPage(String filename) {
+    public String getPage(String filename) {
         return getPage(filename, Collections.emptyMap());
     }
 
-    public static String getCssPage(String filename) {
+    public String getCssPage(String filename) {
         return getPage("css" + filename);
-    }
-
-    private static void initConfig() {
-        config = new Configuration(Configuration.VERSION_2_3_31);
-        try {
-            config.setDirectoryForTemplateLoading(new File(ROOT));
-            config.setDefaultEncoding("UTF-8");
-        } catch (IOException e) {
-            throw new RuntimeException("Not able to configure PageProvider. " + e);
-        }
     }
 
 }

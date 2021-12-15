@@ -26,6 +26,7 @@ public class EditProductServlet extends HttpServlet {
 
     private final ProductService productService;
     private final SecurityService securityService;
+    private final PageProvider pageProvider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,7 +37,7 @@ public class EditProductServlet extends HttpServlet {
             idParameter.put("id", id);
 
             try (PrintWriter writer = response.getWriter()) {
-                writer.println(PageProvider.getPage("products_edit.html", idParameter));
+                writer.println(pageProvider.getPage("products_edit.html", idParameter));
             }
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);

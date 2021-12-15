@@ -24,11 +24,12 @@ public class RegistrationServlet extends HttpServlet {
 
     private final UserService userService;
     private final SecurityService securityService;
+    private final PageProvider pageProvider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter writer = response.getWriter()) {
-            writer.println(PageProvider.getPage("registration.html"));
+            writer.println(pageProvider.getPage("registration.html"));
         }
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
