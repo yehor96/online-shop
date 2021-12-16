@@ -2,6 +2,7 @@ package com.shop.web.servlet;
 
 import com.shop.entity.User;
 import com.shop.service.SecurityService;
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet implements Mappable {
 
     private final SecurityService securityService;
     private final PageProvider pageProvider;
@@ -51,6 +52,7 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/login");
     }

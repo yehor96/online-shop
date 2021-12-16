@@ -1,5 +1,6 @@
 package com.shop.web.servlet;
 
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class FailedRegistrationServlet extends HttpServlet {
+public class FailedRegistrationServlet extends HttpServlet implements Mappable {
 
     private final PageProvider pageProvider;
 
@@ -30,6 +31,7 @@ public class FailedRegistrationServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/failed_registration");
     }

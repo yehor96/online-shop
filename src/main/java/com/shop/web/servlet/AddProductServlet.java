@@ -3,6 +3,7 @@ package com.shop.web.servlet;
 import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class AddProductServlet extends HttpServlet {
+public class AddProductServlet extends HttpServlet implements Mappable {
 
     private static final ResponseErrorHandler ERROR_HANDLER = new ResponseErrorHandler();
 
@@ -62,6 +63,7 @@ public class AddProductServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/products/add");
     }

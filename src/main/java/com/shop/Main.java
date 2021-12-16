@@ -7,10 +7,13 @@ import com.shop.dao.user.UserDao;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import com.shop.web.servlet.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+
+import java.util.List;
 
 public class Main {
 
@@ -27,8 +30,8 @@ public class Main {
 
         PageProvider pageProvider = new PageProvider();
 
-        ServletContextHandler contextHandler = ServletManager.getContextHandler(
-                pageProvider, productService, userService, securityService);
+        List<Mappable> servlets = ServletManager.getServlets(pageProvider, productService, userService, securityService);
+        ServletContextHandler contextHandler = ServletManager.addMappings(servlets);
         server.setHandler(contextHandler);
 
         server.start();

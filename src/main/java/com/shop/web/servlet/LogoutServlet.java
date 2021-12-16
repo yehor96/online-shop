@@ -1,6 +1,7 @@
 package com.shop.web.servlet;
 
 import com.shop.service.SecurityService;
+import com.shop.web.Mappable;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class LogoutServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet implements Mappable {
 
     private final SecurityService securityService;
 
@@ -26,6 +27,7 @@ public class LogoutServlet extends HttpServlet {
         response.sendRedirect("/products");
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/logout");
     }

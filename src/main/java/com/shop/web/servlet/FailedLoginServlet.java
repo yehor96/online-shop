@@ -1,5 +1,6 @@
 package com.shop.web.servlet;
 
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @RequiredArgsConstructor
-public class FailedLoginServlet extends HttpServlet {
+public class FailedLoginServlet extends HttpServlet implements Mappable {
 
     private final PageProvider pageProvider;
 
@@ -26,6 +27,7 @@ public class FailedLoginServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/failed_login");
     }

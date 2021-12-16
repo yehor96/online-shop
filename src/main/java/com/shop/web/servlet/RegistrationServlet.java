@@ -3,6 +3,7 @@ package com.shop.web.servlet;
 import com.shop.entity.User;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -20,7 +21,7 @@ import java.io.PrintWriter;
 import static com.shop.service.SecurityService.PASSWORD_IS_NOT_VALID_MESSAGE;
 
 @RequiredArgsConstructor
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet extends HttpServlet implements Mappable {
 
     private final UserService userService;
     private final SecurityService securityService;
@@ -58,6 +59,7 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/registration");
     }

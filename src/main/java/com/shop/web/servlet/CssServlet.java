@@ -1,5 +1,6 @@
 package com.shop.web.servlet;
 
+import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @RequiredArgsConstructor
-public class CssServlet extends HttpServlet {
+public class CssServlet extends HttpServlet implements Mappable {
 
     private final PageProvider pageProvider;
 
@@ -23,6 +24,7 @@ public class CssServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void addMapping(ServletContextHandler contextHandler) {
         contextHandler.addServlet(new ServletHolder(this), "/css/*");
     }
