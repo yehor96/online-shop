@@ -4,6 +4,7 @@ import com.shop.entity.User;
 import com.shop.service.SecurityService;
 import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.CookieHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -20,12 +21,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LoginServlet extends HttpServlet implements Mappable {
 
+    private static final CookieHandler COOKIE_HANDLER = new CookieHandler();
+
     private final SecurityService securityService;
     private final PageProvider pageProvider;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> userTokens = securityService.getUserTokens(request.getCookies());
+        List<String> userTokens = COOKIE_HANDLER.getUserTokens(request.getCookies());
         if (securityService.isLoggedIn(userTokens)) {
             response.sendRedirect("/products");
         } else {
@@ -44,7 +47,8 @@ public class LoginServlet extends HttpServlet implements Mappable {
         User user = User.builder().username(username).password(password).build();
 
         if (securityService.areValidCredentials(user)) {
-            Cookie cookie = securityService.generateCookie();
+            Cookie cookie = COOKIE_HANDLER.generateCookie();
+            securityService.addToken(cookie.getValue());
             response.addCookie(cookie);
             response.sendRedirect("/products");
         } else {

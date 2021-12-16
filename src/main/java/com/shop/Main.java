@@ -9,6 +9,7 @@ import com.shop.service.SecurityService;
 import com.shop.service.UserService;
 import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
+import com.shop.web.filter.SecurityFilter;
 import com.shop.web.servlet.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -33,6 +34,9 @@ public class Main {
         List<Mappable> servlets = ServletManager.getServlets(pageProvider, productService, userService, securityService);
         ServletContextHandler contextHandler = ServletManager.addMappings(servlets);
         server.setHandler(contextHandler);
+
+        SecurityFilter securityFilter = new SecurityFilter(securityService);
+        securityFilter.register(contextHandler);
 
         server.start();
     }

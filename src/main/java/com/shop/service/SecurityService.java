@@ -2,15 +2,12 @@ package com.shop.service;
 
 import com.github.javafaker.Faker;
 import com.shop.entity.User;
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class SecurityService {
@@ -21,26 +18,11 @@ public class SecurityService {
             <br>- Not be blank
             <br>- Not contain spaces
             """;
-    private static final String TOKEN_KEY = "user-os-token";
+
     private static final Faker FAKER = new Faker();
 
     private final List<String> tokenStorage = Collections.synchronizedList(new ArrayList<>());
     private final UserService userService;
-
-    //TODO remove after adding Security Filter
-    public List<String> getUserTokens(Cookie[] cookies) {
-        if (Objects.isNull(cookies)) {
-            return Collections.emptyList();
-        }
-
-        List<String> userTokens = new ArrayList<>();
-        for (Cookie cookie : cookies) {
-            if (Objects.equals(cookie.getName(), TOKEN_KEY)) {
-                userTokens.add(cookie.getValue());
-            }
-        }
-        return userTokens;
-    }
 
     public boolean isLoggedIn(List<String> userTokens) {
         if (userTokens.isEmpty()) {
@@ -50,20 +32,12 @@ public class SecurityService {
         return userTokens.stream().anyMatch(tokenStorage::contains);
     }
 
-    public Cookie generateCookie() {
-        String tokenValue = getTokenValue();
-        tokenStorage.add(tokenValue);
-        return new Cookie(TOKEN_KEY, tokenValue);
-    }
-
-    public Cookie generateRemovalCookie() {
-        Cookie cookie = new Cookie(TOKEN_KEY, "");
-        cookie.setMaxAge(0);
-        return cookie;
-    }
-
     public void clearUserTokens(List<String> userTokens) {
         tokenStorage.removeAll(userTokens);
+    }
+
+    public void addToken(String userToken) {
+        tokenStorage.add(userToken);
     }
 
     public void addSalt(User user) {
@@ -103,10 +77,6 @@ public class SecurityService {
 
     String generateSalt() {
         return FAKER.random().hex(8);
-    }
-
-    String getTokenValue() {
-        return UUID.randomUUID().toString();
     }
 
 }

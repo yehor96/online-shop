@@ -25,9 +25,9 @@ public class ServletManager {
                 new LoginServlet(securityService, pageProvider),
                 new LogoutServlet(securityService),
                 new ProductsServlet(productService, securityService, pageProvider),
-                new AddProductServlet(productService, securityService, pageProvider),
-                new DeleteProductServlet(productService, securityService),
-                new EditProductServlet(productService, securityService, pageProvider)
+                new AddProductServlet(productService, pageProvider),
+                new DeleteProductServlet(productService),
+                new EditProductServlet(productService, pageProvider)
         );
     }
 

@@ -5,6 +5,7 @@ import com.shop.service.SecurityService;
 import com.shop.service.UserService;
 import com.shop.web.Mappable;
 import com.shop.web.PageProvider;
+import com.shop.web.handler.CookieHandler;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -22,6 +23,8 @@ import static com.shop.service.SecurityService.PASSWORD_IS_NOT_VALID_MESSAGE;
 
 @RequiredArgsConstructor
 public class RegistrationServlet extends HttpServlet implements Mappable {
+
+    private static final CookieHandler COOKIE_HANDLER = new CookieHandler();
 
     private final UserService userService;
     private final SecurityService securityService;
@@ -53,7 +56,8 @@ public class RegistrationServlet extends HttpServlet implements Mappable {
             User user = User.builder().username(username).password(password).build();
             securityService.addSalt(user);
             userService.addNew(user);
-            Cookie cookie = securityService.generateCookie();
+            Cookie cookie = COOKIE_HANDLER.generateCookie();
+            securityService.addToken(cookie.getValue());
             response.addCookie(cookie);
             response.sendRedirect("/products");
         }
