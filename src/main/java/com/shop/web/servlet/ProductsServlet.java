@@ -3,7 +3,7 @@ package com.shop.web.servlet;
 import com.shop.entity.Product;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
-import com.shop.web.Mappable;
+import com.shop.web.servlet.setup.Mappable;
 import com.shop.web.PageProvider;
 import com.shop.web.handler.CookieHandler;
 import jakarta.servlet.http.HttpServlet;

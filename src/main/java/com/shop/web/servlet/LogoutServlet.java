@@ -1,7 +1,7 @@
 package com.shop.web.servlet;
 
 import com.shop.service.SecurityService;
-import com.shop.web.Mappable;
+import com.shop.web.servlet.setup.Mappable;
 import com.shop.web.handler.CookieHandler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

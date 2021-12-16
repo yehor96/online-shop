@@ -1,9 +1,18 @@
-package com.shop.web.servlet;
+package com.shop.web.servlet.setup;
 
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
-import com.shop.web.Mappable;
+import com.shop.web.servlet.AddProductServlet;
+import com.shop.web.servlet.CssServlet;
+import com.shop.web.servlet.DeleteProductServlet;
+import com.shop.web.servlet.EditProductServlet;
+import com.shop.web.servlet.FailedLoginServlet;
+import com.shop.web.servlet.FailedRegistrationServlet;
+import com.shop.web.servlet.LoginServlet;
+import com.shop.web.servlet.LogoutServlet;
+import com.shop.web.servlet.ProductsServlet;
+import com.shop.web.servlet.RegistrationServlet;
 import com.shop.web.PageProvider;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jetty.servlet.ServletContextHandler;

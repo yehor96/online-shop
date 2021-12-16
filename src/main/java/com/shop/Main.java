@@ -7,10 +7,10 @@ import com.shop.dao.user.UserDao;
 import com.shop.service.ProductService;
 import com.shop.service.SecurityService;
 import com.shop.service.UserService;
-import com.shop.web.Mappable;
+import com.shop.web.servlet.setup.Mappable;
 import com.shop.web.PageProvider;
 import com.shop.web.filter.SecurityFilter;
-import com.shop.web.servlet.ServletManager;
+import com.shop.web.servlet.setup.ServletManager;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 

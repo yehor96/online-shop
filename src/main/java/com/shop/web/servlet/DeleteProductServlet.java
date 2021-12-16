@@ -1,7 +1,7 @@
 package com.shop.web.servlet;
 
 import com.shop.service.ProductService;
-import com.shop.web.Mappable;
+import com.shop.web.servlet.setup.Mappable;
 import com.shop.web.handler.ResponseErrorHandler;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

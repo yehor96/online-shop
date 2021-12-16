@@ -1,4 +1,4 @@
-package com.shop.web;
+package com.shop.web.servlet.setup;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 

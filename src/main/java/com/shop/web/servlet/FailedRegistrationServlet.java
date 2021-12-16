@@ -1,6 +1,6 @@
 package com.shop.web.servlet;
 
-import com.shop.web.Mappable;
+import com.shop.web.servlet.setup.Mappable;
 import com.shop.web.PageProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
